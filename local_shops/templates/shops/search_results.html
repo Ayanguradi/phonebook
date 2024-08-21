@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 4px;
+            transition: transform 0.3s;
+        }
+        li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        li:hover {
+            transform: scale(1.05);
+        }
+        p {
+            text-align: center;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results for "{{ query }}"</h1>
+
+        <h2>Shops</h2>
+        {% if shops %}
+            <ul>
+                {% for shop in shops %}
+                    <li><a href="{% url 'shop_detail' shop.pk %}">{{ shop.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No shops found.</p>
+        {% endif %}
+
+        <h2>Categories</h2>
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                    <li><a href="{% url 'category_shops' category.pk %}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No categories found.</p>
+        {% endif %}
+
+        <h2>Subcategories</h2>
+        {% if subcategories %}
+            <ul>
+                {% for subcategory in subcategories %}
+                    <li>{{ subcategory.name }} (Category: <a href="{% url 'category_shops' subcategory.category.pk %}">{{ subcategory.category.name }}</a>)</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No subcategories found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

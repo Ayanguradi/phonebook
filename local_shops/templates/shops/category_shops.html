@@ -1,0 +1,61 @@
+{% extends 'shops/base.html' %}
+{% load static %}    
+
+{% block content %}
+
+<!-- -------------Hero Section------------------- -->
+<section class="bsb-hero-1 px-3 bsb-overlay bsb-hover-pull" style="background-image: url('{{ category.image.url|default_if_none:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEulEy9Ku6oIvOetWFuLJchksSiZlEJenoyg&s" }}'); background-repeat:no-repeat; background-size:100%;">
+    <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-11 col-lg-9 col-xl-7 col-xxl-6 text-center text-white">
+        <h2 class="display-3 fw-bold mb-3" >{{ category.name }}</h2>
+        <p class="lead mb-5"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+    <div class="container">
+        <!-- ------------subcategories are displayed----------- -->
+        <div class="subcategories d-flex justify-content-center">
+            {% for subcat in subcategories %}
+                <a class="btn btn-outline-primary m-3 my-4 {% if subcat.id == selected_subcategory_id %}active{% endif %}" href="?subcategory_id={{ subcat.id }}">{{ subcat.name }}</a>
+            {% endfor %}
+        </div>
+
+        <!-- ---------------Randomly shops are displayed------------- -->
+        <div class="row">
+            {% for shop in shops %}
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+                <div class="card rounded">
+                    <div id="shopCarousel{{ shop.id }}" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in shop.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100 rounded" height="200px" alt="{{ shop.name }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#shopCarousel{{ shop.id }}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#shopCarousel{{ shop.id }}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><b>{{ shop.name }}</b></h5>
+                        <p class="card-text"><i class="bi bi-geo-alt-fill"></i>{{ shop.address }}</p>
+                        <a href="{% url 'shop_detail' shop.id %}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+{% endblock %}

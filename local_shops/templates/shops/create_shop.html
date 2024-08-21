@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Shop</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container {
+            background: #e7e6d6;;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #feb47b, #ff7e5f);
+        }
+        .btn-secondary {
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            border: none;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #185a9d, #43cea2);
+        }
+        .add-image-btn {
+            margin-top: 10px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function addImageField() {
+            const container = document.getElementById('image-fields');
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'images';
+            input.accept = 'image/*';
+            input.classList.add('form-control');
+            container.appendChild(input);
+        }
+
+        function updateSubcategories() {
+            const categorySelect = document.getElementById('id_category');
+            const subcategorySelect = document.getElementById('id_subcategory');
+            const categoryId = categorySelect.value;
+
+            fetch(`/get_subcategories/${categoryId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    subcategorySelect.innerHTML = '';
+                    data.subcategories.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory.id;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('id_category').addEventListener('change', updateSubcategories);
+        });
+    </script>
+</head>
+<body>
+    <div class="form-container my-3">
+        <h1 class="text-center">Create a New Shop</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ shop_form.as_p }}
+            </div>
+            <h3>Upload Images (Optional)</h3>
+            <div id="image-fields" class="form-group">
+                <input type="file" name="images" accept="image/*" class="form-control">
+            </div>
+            <button type="button" class="btn btn-secondary add-image-btn my-2" onclick="addImageField()">Add another image</button>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Shop</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #feb47b, #ff7e5f);
+        }
+        .btn-secondary {
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            border: none;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #185a9d, #43cea2);
+        }
+        .add-image-btn {
+            margin-top: 10px;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function addImageField() {
+            const container = document.getElementById('image-fields');
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'images';  // Change the name to 'images' to handle multiple files
+            input.accept = 'image/*';
+            input.classList.add('form-control');
+            container.appendChild(input);
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container my-3">
+        <h1 class="text-center">Create a New Shop</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ shop_form.as_p }}
+            </div>
+            <h3>Upload Images (Optional)</h3>
+            <div id="image-fields" class="form-group">
+                <input type="file" name="images" accept="image/*" class="form-control">
+            </div>
+            <button type="button" class="btn btn-secondary add-image-btn my-2" onclick="addImageField()">Add another image</button>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+ -->

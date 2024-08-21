@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categories</title>
+</head>
+<body>
+    <header>
+        {% include 'shops/header.html' %}
+    </header>
+    <div class="hero">
+        {% include 'shops/hero.html' %}
+    </div>
+    <main>
+        <h1>Categories</h1>
+        <ul>
+            {% for category in categories %}
+            <li>
+                <a href="{% url 'category_shops' category.id %}">
+                    <span>{% autoescape off %}{{ category.icon }}{% endautoescape %}</span>
+                    {{ category.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+    <footer>
+        {% include 'shops/footer.html' %}
+    </footer>
+</body>
+</html>

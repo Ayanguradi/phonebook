@@ -1,0 +1,55 @@
+<!-- origin -->
+{% extends 'shops/base.html' %}
+{% load static %}    
+{% block content %}
+
+<main>
+    <div class="container my-4">
+        <!-- First Row: Images -->
+        <div class="row mb-4 ">
+            {% for image in shop.images.all %}
+                {% if forloop.counter <= 2 %}
+                <div class="col-md-4 shop-image">
+                    <img src="{{ image.image.url }}" class="img-fluid mb-3 d-block w-100"  alt="{{ shop.name }}">
+                </div>
+                {% elif forloop.counter == 3 %}
+                <div class="col-md-4 d-flex justify-content-center align-items-center" style="background-color: rgb(88, 85, 85);" >
+                    <a href="{% url 'shop_all_images' shop.id %}" >
+                        <div style="color: aliceblue;">
+                            <i class="fas fa-images fa-3x"></i>
+                            <p>View All Images</p>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Second Row: Shop Details -->
+        <div class="row">
+            <div class="col-md-6">
+                <h1>{{ shop.name }}</h1>
+                <p><strong>Address:</strong> {{ shop.address }}</p>
+                <p><strong>Contact Number:</strong> {{ shop.phone_number }}</p>
+                <p><strong>Email:</strong> {{ shop.email }}</p>
+                <p><strong>Website:</strong> <a href="{{ shop.website }}" target="_blank">{{ shop.website }}</a></p>
+                <p><strong>time:</strong> {{ shop.opening_hours }}</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Description</h2>
+                <p>{{ shop.description }}</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

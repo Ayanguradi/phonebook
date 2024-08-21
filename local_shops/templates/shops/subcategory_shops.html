@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subcategory.name }} Shops{% endblock %}
+
+{% block content %}
+<section class="services-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">{{ subcategory.name }} Shops</h2>
+        <div class="row">
+            {% for shop in shops %}
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div id="shopCarousel{{ shop.id }}" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in shop.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ shop.name }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#shopCarousel{{ shop.id }}" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#shopCarousel{{ shop.id }}" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ shop.name }}</h5>
+                        <p class="card-text">{{ shop.description }}</p>
+                        <a href="{% url 'shop_detail' shop.id %}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>{{ category.name }} - {{ subcategory.name }} - Shops</title>
+</head>
+<body>
+    <header>
+        {% include 'shops/header.html' %}
+    </header>
+    <div class="hero">
+        {% include 'shops/hero.html' %}
+    </div>
+    <main>
+        <div class="container">
+            <h1>{{ category.name }} - {{ subcategory.name }}</h1>
+            <div class="subcategories">
+                <ul class="nav nav-pills">
+                    {% for subcat in subcategories %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory_shops' category.id subcat.id %}">{{ subcat.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <ul>
+                {% for shop in shops %}
+                <li>
+                    <a href="{% url 'shop_detail' shop.pk %}">{{ shop.name }}</a> - {{ shop.address }}
+                </li>
+                {% empty %}
+                <li>No shops found for this subcategory.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+    <footer>
+        {% include 'shops/footer.html' %}
+    </footer>
+</body>
+</html> -->
